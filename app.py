@@ -12,6 +12,11 @@ app.config['DOWNLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__f
 os.makedirs(app.config['TEMP_FOLDER'], exist_ok=True)
 os.makedirs(app.config['DOWNLOAD_FOLDER'], exist_ok=True)
 tasks = {}
+def get_cookie_file():
+    cookie_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cookies.txt')
+    if os.path.exists(cookie_path):
+        return cookie_path
+    return None
 def progress_hook(d):
     task_id = d.get('task_id')
     if not task_id or task_id not in tasks:
@@ -63,6 +68,9 @@ def get_ydl_opts(task_id, quality='best'):
             }
         },
     }
+    cookie_file = get_cookie_file()
+    if cookie_file:
+        opts['cookiefile'] = cookie_file
     return opts
 def find_downloaded_file(output_dir):
     if not os.path.exists(output_dir):
@@ -174,6 +182,9 @@ def get_info():
                 }
             },
         }
+        cookie_file = get_cookie_file()
+        if cookie_file:
+            ydl_opts['cookiefile'] = cookie_file
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
         is_playlist = 'entries' in info
