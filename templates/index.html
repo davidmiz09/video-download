@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="bg-canvas">
+        <div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div>
+        <div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div>
+        <div class="bg-orb"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <div class="wrap">
+        <nav class="nav">
+            <a href="#" class="nl">
+                <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                    <rect x="2" y="2" width="36" height="36" rx="10" stroke="url(#lg)" stroke-width="2.5"/>
+                    <path d="M16 12L28 20L16 28V12Z" fill="url(#lg)"/>
+                    <defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#ff3366"/><stop offset="1" stop-color="#9933ff"/></linearGradient></defs>
+                </svg>
+                Video Vault
+            </a>
+            <ul class="nls">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#stats">Stats</a></li>
+            </ul>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-c g">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    FULL RESOLUTION RECOVERY
+                </div>
+                <h1>Recover Your<br><span class="gr">Lost Videos</span></h1>
+                <p>Paste your YouTube or TikTok links. We download them in full resolution with no watermarks. Your content, your control.</p>
+                <div class="hero-btns">
+                    <a href="#start" class="btn btn-g rp gi">Start Downloading</a>
+                    <a href="#features" class="btn btn-p rp gi">See Features</a>
+                </div>
+                <div class="hero-avatars">
+                    <div class="av" style="background:linear-gradient(135deg,var(--c1),var(--c2));">YT</div>
+                    <div class="av" style="background:linear-gradient(135deg,var(--c3),var(--c4));">TK</div>
+                    <div class="av" style="background:linear-gradient(135deg,var(--c5),var(--c6));">TT</div>
+                    <div class="av" style="background:linear-gradient(135deg,var(--c6),var(--c7));">IG</div>
+                    <div class="av" style="background:rgba(255,255,255,.06); font-size:.7rem;">+12</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="marquee">
+            <div class="marquee-inner">
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c1)"></span>YOUTUBE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c2)"></span>TIKTOK</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c3)"></span>INSTAGRAM</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c4)"></span>TWITCH</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c5)"></span>VIMEO</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c6)"></span>TWITTER</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c7)"></span>REDDIT</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c1)"></span>YOUTUBE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c2)"></span>TIKTOK</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c3)"></span>INSTAGRAM</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c4)"></span>TWITCH</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c5)"></span>VIMEO</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c6)"></span>TWITTER</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c7)"></span>REDDIT</span>
+            </div>
+        </div>
+
+        <section id="start">
+            <div class="ctr">
+                <div class="sh" style="text-align:center;">
+                    <div class="sl">Downloader</div>
+                    <h2 class="st">Paste & Download</h2>
+                    <p class="sd" style="margin:0 auto;">Drop your video links below. We handle the rest.</p>
+                </div>
+
+                <div class="main-glass g gi">
+                    <div class="input-section">
+                        <label class="glass-label" for="urls">Video URLs</label>
+                        <p class="input-hint">One URL per line — YouTube, TikTok, and 1000+ sites</p>
+                        <div class="textarea-wrapper">
+                            <textarea id="urls" rows="5" placeholder="https://youtube.com/watch?v=...&#10;https://tiktok.com/@user/video/..."></textarea>
+                            <div class="textarea-glow"></div>
+                        </div>
+
+                        <div class="controls-row">
+                            <div class="glass-select-wrapper">
+                                <label class="mini-label">Quality</label>
+                                <select id="quality">
+                                    <option value="best">Best Available</option>
+                                    <option value="1080p">1080p</option>
+                                    <option value="720p">720p</option>
+                                    <option value="480p">480p</option>
+                                    <option value="audio">Audio Only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="button-row">
+                            <button id="btn-info" class="btn btn-p rp gi">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                                Fetch Info
+                            </button>
+                            <button id="btn-download" class="btn btn-g rp gi">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="info-section" class="section-glass hidden">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c5)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                Video Info
+            </h2>
+            <div id="video-info-list"></div>
+        </div>
+
+        <div id="progress-section" class="section-glass hidden">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c4)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Download Progress
+            </h2>
+            <div id="progress-list"></div>
+        </div>
+
+        <div id="history-section" class="section-glass hidden">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--c6)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                History
+            </h2>
+            <div id="history-list"></div>
+        </div>
+
+        <section id="features">
+            <div class="ctr">
+                <div class="sh" style="text-align:center;">
+                    <div class="sl">Why Us</div>
+                    <h2 class="st">Powerful Features</h2>
+                    <p class="sd" style="margin:0 auto;">Everything you need to recover your content.</p>
+                </div>
+                <div class="cards">
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c1),var(--c2))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </div>
+                        <h3>Full Resolution</h3>
+                        <p>Download videos in their original quality — up to 4K and 60fps.</p>
+                    </div>
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c3),var(--c4))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3>No Watermarks</h3>
+                        <p>Clean downloads without platform watermarks or logos.</p>
+                    </div>
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c5),var(--c6))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </div>
+                        <h3>1000+ Sites</h3>
+                        <p>YouTube, TikTok, Instagram, Twitter, Vimeo, Twitch, and more.</p>
+                    </div>
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c4),var(--c5))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <h3>Lightning Fast</h3>
+                        <p>Optimized download engine with parallel processing.</p>
+                    </div>
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c6),var(--c7))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                        </div>
+                        <h3>Batch Download</h3>
+                        <p>Download entire playlists or multiple videos at once.</p>
+                    </div>
+                    <div class="card g gi">
+                        <div class="card-icon" style="background:linear-gradient(135deg,var(--c7),var(--c1))">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        </div>
+                        <h3>100% Free</h3>
+                        <p>No accounts, no limits, no hidden fees. Just download.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stats">
+            <div class="ctr">
+                <div class="sh" style="text-align:center;">
+                    <div class="sl">Performance</div>
+                    <h2 class="st">By The Numbers</h2>
+                </div>
+                <div class="stat-bars">
+                    <div class="stat-bar g gi" data-count="2.4" data-suffix="M" data-decimal="true">
+                        <div class="sb-num" style="color:var(--c1)">0M</div>
+                        <div class="sb-label">Downloads</div>
+                        <div class="sb-bar"><div class="sb-fill bf1" style="--w:96%"></div></div>
+                    </div>
+                    <div class="stat-bar g gi" data-count="99.9" data-suffix="%" data-decimal="true">
+                        <div class="sb-num" style="color:var(--c3)">0%</div>
+                        <div class="sb-label">Uptime</div>
+                        <div class="sb-bar"><div class="sb-fill bf3" style="--w:99%"></div></div>
+                    </div>
+                    <div class="stat-bar g gi" data-count="1200" data-suffix="+">
+                        <div class="sb-num" style="color:var(--c4)">0+</div>
+                        <div class="sb-label">Sites</div>
+                        <div class="sb-bar"><div class="sb-fill bf4" style="--w:85%"></div></div>
+                    </div>
+                    <div class="stat-bar g gi" data-count="4" data-suffix="K">
+                        <div class="sb-num" style="color:var(--c5)">0K</div>
+                        <div class="sb-label">Max Quality</div>
+                        <div class="sb-bar"><div class="sb-fill bf5" style="--w:100%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how" style="padding-top:0">
+            <div class="ctr">
+                <div class="sh" style="text-align:center;">
+                    <div class="sl">Process</div>
+                    <h2 class="st">How It Works</h2>
+                </div>
+                <div class="steps-row">
+                    <div class="step-card g gi">
+                        <div class="step-num" style="background:linear-gradient(135deg,var(--c1),var(--c2))">1</div>
+                        <h3>Paste URL</h3>
+                        <p>Copy your video link from YouTube, TikTok, or any supported site.</p>
+                    </div>
+                    <div class="step-arrow">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="step-card g gi">
+                        <div class="step-num" style="background:linear-gradient(135deg,var(--c3),var(--c4))">2</div>
+                        <h3>Choose Quality</h3>
+                        <p>Select your preferred resolution — from 480p to best available.</p>
+                    </div>
+                    <div class="step-arrow">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="step-card g gi">
+                        <div class="step-num" style="background:linear-gradient(135deg,var(--c5),var(--c6))">3</div>
+                        <h3>Download</h3>
+                        <p>Click download and save the video to your device instantly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="marquee" style="border:none; padding:40px 0;">
+            <div class="marquee-inner" style="animation-duration:15s;">
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c1)"></span>FAST</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c2)"></span>FREE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c3)"></span>SECURE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c4)"></span>NO ADS</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c5)"></span>4K</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c6)"></span>BATCH</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c7)"></span>INSTANT</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c1)"></span>FAST</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c2)"></span>FREE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c3)"></span>SECURE</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c4)"></span>NO ADS</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c5)"></span>4K</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c6)"></span>BATCH</span>
+                <span class="marquee-item"><span class="marquee-dot" style="background:var(--c7)"></span>INSTANT</span>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-inner">
+                <span style="color:rgba(255,255,255,.25)">Video Vault — Built for creators</span>
+                <span style="color:rgba(255,255,255,.25)">Made with colorful gradients</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const btnInfo = document.getElementById('btn-info');
+        const btnDownload = document.getElementById('btn-download');
+        const urlsInput = document.getElementById('urls');
+        const qualitySelect = document.getElementById('quality');
+        const infoSection = document.getElementById('info-section');
+        const videoInfoList = document.getElementById('video-info-list');
+        const progressSection = document.getElementById('progress-section');
+        const progressList = document.getElementById('progress-list');
+        const historySection = document.getElementById('history-section');
+        const historyList = document.getElementById('history-list');
+        const history = [];
+
+        document.querySelectorAll('.gi').forEach(el=>{
+            el.addEventListener('mousemove',e=>{
+                const r=el.getBoundingClientRect();
+                el.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+                el.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+            });
+        });
+
+        const observer=new IntersectionObserver(entries=>{
+            entries.forEach(entry=>{
+                if(entry.isIntersecting){
+                    entry.target.querySelectorAll('.sb-fill').forEach(f=>f.classList.add('animated'));
+                    entry.target.querySelectorAll('[data-count]').forEach(el=>{
+                        const target=parseFloat(el.dataset.count);
+                        const suffix=el.dataset.suffix||'';
+                        const isDecimal=el.dataset.decimal==='true';
+                        const numEl=el.querySelector('.sb-num');
+                        const dur=1500;
+                        const startTime=performance.now();
+                        function tick(now){
+                            const elapsed=now-startTime;
+                            const progress=Math.min(elapsed/dur,1);
+                            const eased=1-Math.pow(1-progress,3);
+                            const current=target*eased;
+                            numEl.textContent=(isDecimal?current.toFixed(1):Math.round(current))+suffix;
+                            if(progress<1) requestAnimationFrame(tick);
+                        }
+                        requestAnimationFrame(tick);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        },{threshold:0.2});
+        document.querySelectorAll('.stat-bars').forEach(el=>observer.observe(el));
+
+        btnInfo.addEventListener('click', async () => {
+            const urls = urlsInput.value.trim().split('\n').filter(u => u.trim());
+            if (urls.length === 0) return alert('Please enter at least one URL');
+            btnInfo.disabled = true;
+            btnInfo.innerHTML = '<span class="spinner"></span> Fetching...';
+            videoInfoList.innerHTML = '';
+            for (const url of urls) {
+                try {
+                    const res = await fetch('/api/info', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: url.trim() }) });
+                    const data = await res.json();
+                    if (data.error) {
+                        videoInfoList.innerHTML += `<div class="info-card error-card"><p>${data.error}</p></div>`;
+                    } else {
+                        for (const item of data.results) {
+                            if (item.type === 'playlist') {
+                                videoInfoList.innerHTML += `<div class="info-card playlist-card"><div class="info-content"><h3>${item.title}</h3><p class="meta">${item.uploader} &bull; ${item.count} videos</p></div></div>`;
+                            } else {
+                                videoInfoList.innerHTML += `<div class="info-card video-card">${item.thumbnail ? `<img src="${item.thumbnail}" alt="" class="thumb">` : ''}<div class="info-content"><h3>${item.title}</h3><p class="meta">${item.uploader || ''} &bull; ${item.duration} &bull; ${(item.view_count || 0).toLocaleString()} views</p><p class="url-text">${item.url}</p></div></div>`;
+                            }
+                        }
+                    }
+                } catch (err) { videoInfoList.innerHTML += `<div class="info-card error-card"><p>Network error: ${err.message}</p></div>`; }
+            }
+            infoSection.classList.remove('hidden');
+            btnInfo.disabled = false;
+            btnInfo.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Fetch Info';
+        });
+
+        btnDownload.addEventListener('click', async () => {
+            const urls = urlsInput.value.trim().split('\n').filter(u => u.trim());
+            if (urls.length === 0) return alert('Please enter at least one URL');
+            btnDownload.disabled = true;
+            btnDownload.innerHTML = '<span class="spinner"></span> Starting...';
+            progressList.innerHTML = '';
+            progressSection.classList.remove('hidden');
+            try {
+                const res = await fetch('/api/download', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ urls: urls, quality: qualitySelect.value }) });
+                const data = await res.json();
+                if (data.error) { progressList.innerHTML = `<div class="progress-card error-card"><p>${data.error}</p></div>`; resetBtn(); return; }
+                pollStatus(data.task_id, data.mode);
+            } catch (err) { progressList.innerHTML = `<div class="progress-card error-card"><p>Network error</p></div>`; resetBtn(); }
+        });
+
+        function resetBtn() {
+            btnDownload.disabled = false;
+            btnDownload.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download';
+        }
+
+        function pollStatus(taskId, mode) {
+            const interval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/status/${taskId}`);
+                    const task = await res.json();
+                    if (mode === 'single') updateSingle(task, taskId);
+                    else updateBatch(task, taskId);
+                    if (task.status === 'completed' || task.status === 'error') {
+                        clearInterval(interval); resetBtn();
+                        if (task.status === 'completed' && mode === 'single') addToHistory(taskId, task.filename || 'Video');
+                    }
+                } catch (err) { clearInterval(interval); resetBtn(); }
+            }, 500);
+        }
+
+        function updateSingle(task, taskId) {
+            let btn = '';
+            if (task.status === 'completed') {
+                btn = `<a href="/download/${taskId}" class="download-link"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Save ${task.filename || 'Video'}</a>`;
+            } else if (task.status === 'error') {
+                btn = `<div class="error-text">${task.message}</div>`;
+            }
+            progressList.innerHTML = `<div class="progress-card ${task.status === 'completed' ? 'success-card' : ''} ${task.status === 'error' ? 'error-card' : ''}"><div class="progress-top"><span class="progress-msg">${task.message}</span><span class="progress-pct">${task.progress}%</span></div><div class="progress-track"><div class="progress-fill bf8" style="width: ${task.progress}%"></div></div><div class="progress-meta"><span>${task.downloaded || '0'} / ${task.total || '--'}</span><span>${task.speed || '--'}</span><span>ETA ${task.eta || '--'}</span></div>${btn}</div>`;
+        }
+
+        function updateBatch(task, taskId) {
+            let btns = '';
+            if (task.status === 'completed') {
+                btns = '<div class="batch-links">';
+                for (let i = 0; i < (task.total_count || 0); i++) btns += `<a href="/download/batch/${taskId}/${i}" class="download-link small">Save Video ${i + 1}</a>`;
+                btns += '</div>';
+            }
+            progressList.innerHTML = `<div class="progress-card ${task.status === 'completed' ? 'success-card' : ''}"><div class="progress-top"><span class="progress-msg">${task.message}</span><span class="progress-pct">${task.completed_count || 0}/${task.total_count || 0}</span></div><div class="progress-track"><div class="progress-fill bf9" style="width: ${((task.completed_count || 0) / (task.total_count || 1) * 100)}%"></div></div><div class="progress-meta"><span>Completed: ${task.completed_count || 0}</span><span>Failed: ${task.failed_count || 0}</span></div>${btns}</div>`;
+        }
+
+        function addToHistory(taskId, name) {
+            const time = new Date().toLocaleTimeString();
+            history.unshift({ taskId, name, time });
+            if (history.length > 20) history.pop();
+            historySection.classList.remove('hidden');
+            historyList.innerHTML = history.map(h => `<div class="history-item"><span class="history-time">${h.time}</span><span class="history-name">${h.name}</span><a href="/download/${h.taskId}" class="history-link">Download</a></div>`).join('');
+        }
+    </script>
+</body>
+</html>
