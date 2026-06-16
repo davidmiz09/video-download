@@ -39,15 +39,18 @@ def progress_hook(d):
 def get_ydl_opts(task_id, quality='best'):
     output_dir = tasks[task_id].get('output_dir', app.config['TEMP_FOLDER'])
     os.makedirs(output_dir, exist_ok=True)
-    format_spec = 'bestvideo[vcodec^=avc][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][ext=mp4]/best[ext=mp4]/best'
-    if quality == '1080p':
-        format_spec = 'bestvideo[vcodec^=avc][height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][height<=1080][ext=mp4]/best[height<=1080][ext=mp4]/best'
+    if quality == 'audio':
+        format_spec = 'bestaudio/bestaudio[ext=m4a]/best'
+    elif quality == 'best':
+        format_spec = 'bestvideo+bestaudio/best'
+    elif quality == '1080p':
+        format_spec = 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
     elif quality == '720p':
-        format_spec = 'bestvideo[vcodec^=avc][height<=720][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][height<=720][ext=mp4]/best[height<=720][ext=mp4]/best'
+        format_spec = 'bestvideo[height<=720]+bestaudio/best[height<=720]/best'
     elif quality == '480p':
-        format_spec = 'bestvideo[vcodec^=avc][height<=480][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][height<=480][ext=mp4]/best[height<=480][ext=mp4]/best'
-    elif quality == 'audio':
-        format_spec = 'bestaudio[ext=m4a]/bestaudio'
+        format_spec = 'bestvideo[height<=480]+bestaudio/best[height<=480]/best'
+    else:
+        format_spec = 'bestvideo+bestaudio/best'
     opts = {
         'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
         'format': format_spec,
@@ -60,12 +63,7 @@ def get_ydl_opts(task_id, quality='best'):
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
-            'Referer': 'https://www.youtube.com/',
-        },
-        'extractor_args': {
-            'youtube': {
-                'player_client': ['ios', 'web'],
-            }
+            'Referer': 'https://www.tiktok.com/',
         },
     }
     cookie_file = get_cookie_file()
@@ -175,11 +173,6 @@ def get_info():
             'skip_download': True,
             'http_headers': {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-            },
-            'extractor_args': {
-                'youtube': {
-                    'player_client': ['ios', 'web'],
-                }
             },
         }
         cookie_file = get_cookie_file()
