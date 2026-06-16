@@ -6,46 +6,34 @@ import tempfile
 import shutil
 from flask import Flask, render_template, request, jsonify, send_file, send_from_directory
 import yt_dlp
-
 app = Flask(__name__)
 app.config['TEMP_FOLDER'] = os.path.join(tempfile.gettempdir(), 'video_downloader')
 app.config['DOWNLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
 os.makedirs(app.config['TEMP_FOLDER'], exist_ok=True)
 os.makedirs(app.config['DOWNLOAD_FOLDER'], exist_ok=True)
-
 tasks = {}
-
-FFMPEG_PATH = r'C:\Users\USER\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin'
-
-
 def progress_hook(d):
     task_id = d.get('task_id')
     if not task_id or task_id not in tasks:
         return
-
     if d['status'] == 'downloading':
         total = d.get('total_bytes') or d.get('total_bytes_estimate') or 0
         downloaded = d.get('downloaded_bytes', 0)
         speed = d.get('speed', 0)
         eta = d.get('eta', 0)
         percent = (downloaded / total * 100) if total > 0 else 0
-
         tasks[task_id]['progress'] = round(percent, 1)
         tasks[task_id]['speed'] = f"{(speed / 1024 / 1024):.1f} MB/s" if speed else "N/A"
         tasks[task_id]['eta'] = f"{eta}s" if eta else "N/A"
         tasks[task_id]['downloaded'] = f"{(downloaded / 1024 / 1024):.1f} MB"
         tasks[task_id]['total'] = f"{(total / 1024 / 1024):.1f} MB" if total else "Unknown"
-
     elif d['status'] == 'finished':
         tasks[task_id]['status'] = 'processing'
         tasks[task_id]['progress'] = 100
         tasks[task_id]['message'] = 'Processing...'
-
-
 def get_ydl_opts(task_id, quality='best'):
     output_dir = tasks[task_id].get('output_dir', app.config['TEMP_FOLDER'])
     os.makedirs(output_dir, exist_ok=True)
-
     format_spec = 'bestvideo[vcodec^=avc][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][ext=mp4]/best[ext=mp4]/best'
     if quality == '1080p':
         format_spec = 'bestvideo[vcodec^=avc][height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][height<=1080][ext=mp4]/best[height<=1080][ext=mp4]/best'
@@ -55,7 +43,6 @@ def get_ydl_opts(task_id, quality='best'):
         format_spec = 'bestvideo[vcodec^=avc][height<=480][ext=mp4]+bestaudio[ext=m4a]/best[vcodec^=avc][height<=480][ext=mp4]/best[height<=480][ext=mp4]/best'
     elif quality == 'audio':
         format_spec = 'bestaudio[ext=m4a]/bestaudio'
-
     opts = {
         'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
         'format': format_spec,
@@ -65,7 +52,6 @@ def get_ydl_opts(task_id, quality='best'):
         'ignoreerrors': True,
         'no_warnings': True,
         'quiet': True,
-        'ffmpeg_location': FFMPEG_PATH,
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
@@ -78,8 +64,6 @@ def get_ydl_opts(task_id, quality='best'):
         },
     }
     return opts
-
-
 def find_downloaded_file(output_dir):
     if not os.path.exists(output_dir):
         return None
@@ -87,8 +71,6 @@ def find_downloaded_file(output_dir):
     if not files:
         return None
     return max(files, key=lambda f: os.path.getmtime(os.path.join(output_dir, f)))
-
-
 def move_to_downloads(src_path, filename):
     dest_path = os.path.join(app.config['DOWNLOAD_FOLDER'], filename)
     counter = 1
@@ -104,17 +86,13 @@ def move_to_downloads(src_path, filename):
             import time
             time.sleep(0.5)
     return src_path
-
-
 def download_video(url, task_id):
     try:
         quality = tasks[task_id].get('quality', 'best')
         output_dir = tasks[task_id].get('output_dir', app.config['TEMP_FOLDER'])
         opts = get_ydl_opts(task_id, quality)
-
         with yt_dlp.YoutubeDL(opts) as ydl:
             ydl.download([url])
-
         filename = find_downloaded_file(output_dir)
         if filename:
             src = os.path.join(output_dir, filename)
@@ -127,22 +105,17 @@ def download_video(url, task_id):
         else:
             tasks[task_id]['status'] = 'error'
             tasks[task_id]['message'] = 'Download completed but file not found'
-
     except Exception as e:
         tasks[task_id]['status'] = 'error'
         tasks[task_id]['message'] = str(e)
-
-
 def download_batch(urls, task_id):
     total = len(urls)
     completed = 0
     failed = 0
-
     for i, url in enumerate(urls):
         url = url.strip()
         if not url:
             continue
-
         sub_task_id = f"{task_id}_{i}"
         output_dir = tasks[task_id].get('output_dir', app.config['TEMP_FOLDER'])
         tasks[sub_task_id] = {
@@ -153,14 +126,11 @@ def download_batch(urls, task_id):
             'quality': tasks[task_id].get('quality', 'best'),
             'output_dir': output_dir,
         }
-
         try:
             quality = tasks[task_id].get('quality', 'best')
             opts = get_ydl_opts(sub_task_id, quality)
-
             with yt_dlp.YoutubeDL(opts) as ydl:
                 ydl.download([url])
-
             filename = find_downloaded_file(output_dir)
             if filename:
                 src = os.path.join(output_dir, filename)
@@ -173,44 +143,41 @@ def download_batch(urls, task_id):
                 tasks[sub_task_id]['status'] = 'error'
                 tasks[sub_task_id]['message'] = 'File not found after download'
                 failed += 1
-
         except Exception as e:
             failed += 1
             tasks[sub_task_id]['status'] = 'error'
             tasks[sub_task_id]['message'] = str(e)
-
         tasks[task_id]['completed_count'] = completed
         tasks[task_id]['failed_count'] = failed
         tasks[task_id]['total_count'] = total
-
     tasks[task_id]['status'] = 'completed'
     tasks[task_id]['message'] = f'Done! {completed}/{total} downloaded, {failed} failed.'
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
 @app.route('/api/info', methods=['POST'])
 def get_info():
     url = request.json.get('url', '').strip()
     if not url:
         return jsonify({'error': 'No URL provided'}), 400
-
     try:
         ydl_opts = {
             'quiet': True,
             'no_warnings': True,
             'skip_download': True,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+            },
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['ios', 'web'],
+                }
+            },
         }
-
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
-
         is_playlist = 'entries' in info
         results = []
-
         if is_playlist:
             results.append({
                 'type': 'playlist',
@@ -239,13 +206,9 @@ def get_info():
                 'view_count': info.get('view_count', 0),
                 'upload_date': info.get('upload_date', ''),
             })
-
         return jsonify({'results': results})
-
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-
 def format_duration(seconds):
     if not seconds:
         return 'Unknown'
@@ -255,20 +218,15 @@ def format_duration(seconds):
     if hours > 0:
         return f"{hours}:{minutes:02d}:{secs:02d}"
     return f"{minutes}:{secs:02d}"
-
-
 @app.route('/api/download', methods=['POST'])
 def start_download():
     data = request.json
     urls = data.get('urls', [])
     quality = data.get('quality', 'best')
-
     if not urls:
         return jsonify({'error': 'No URLs provided'}), 400
-
     output_dir = os.path.join(app.config['TEMP_FOLDER'], str(uuid.uuid4())[:8])
     os.makedirs(output_dir, exist_ok=True)
-
     if len(urls) == 1:
         task_id = str(uuid.uuid4())[:8]
         tasks[task_id] = {
@@ -278,11 +236,9 @@ def start_download():
             'quality': quality,
             'output_dir': output_dir,
         }
-
         thread = threading.Thread(target=download_video, args=(urls[0], task_id))
         thread.daemon = True
         thread.start()
-
         return jsonify({'task_id': task_id, 'mode': 'single'})
     else:
         task_id = str(uuid.uuid4())[:8]
@@ -296,61 +252,44 @@ def start_download():
             'failed_count': 0,
             'total_count': len(urls),
         }
-
         thread = threading.Thread(target=download_batch, args=(urls, task_id))
         thread.daemon = True
         thread.start()
-
         return jsonify({'task_id': task_id, 'mode': 'batch'})
-
-
 @app.route('/api/status/<task_id>')
 def get_status(task_id):
     if task_id not in tasks:
         return jsonify({'error': 'Task not found'}), 404
-
     task = tasks[task_id]
     return jsonify(task)
-
-
 @app.route('/download/<task_id>')
 def download_file(task_id):
     if task_id not in tasks:
         return 'Task not found', 404
-
     task = tasks[task_id]
     download_path = task.get('download_path')
     filename = task.get('filename')
-
     if not download_path or not os.path.exists(download_path):
         return 'File not found', 404
-
     return send_file(
         download_path,
         as_attachment=True,
         download_name=filename
     )
-
-
 @app.route('/download/batch/<task_id>/<int:index>')
 def download_batch_file(task_id, index):
     sub_task_id = f"{task_id}_{index}"
     if sub_task_id not in tasks:
         return 'Task not found', 404
-
     task = tasks[sub_task_id]
     download_path = task.get('download_path')
     filename = task.get('filename')
-
     if not download_path or not os.path.exists(download_path):
         return 'File not found', 404
-
     return send_file(
         download_path,
         as_attachment=True,
         download_name=filename
     )
-
-
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
