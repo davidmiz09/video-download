@@ -40,21 +40,13 @@ def get_ydl_opts(task_id, quality='best'):
     output_dir = tasks[task_id].get('output_dir', app.config['TEMP_FOLDER'])
     os.makedirs(output_dir, exist_ok=True)
     if quality == 'audio':
-        format_spec = 'bestaudio/bestaudio[ext=m4a]/best'
-    elif quality == 'best':
-        format_spec = 'bestvideo+bestaudio/best'
-    elif quality == '1080p':
-        format_spec = 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
-    elif quality == '720p':
-        format_spec = 'bestvideo[height<=720]+bestaudio/best[height<=720]/best'
-    elif quality == '480p':
-        format_spec = 'bestvideo[height<=480]+bestaudio/best[height<=480]/best'
+        format_spec = 'bestaudio/best'
     else:
-        format_spec = 'bestvideo+bestaudio/best'
+        format_spec = 'best'
     opts = {
         'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
         'format': format_spec,
-        'merge_output_format': 'mp4' if quality != 'audio' else None,
+        'merge_output_format': 'mp4',
         'progress_hooks': [progress_hook],
         'noplaylist': False,
         'ignoreerrors': True,
@@ -63,7 +55,6 @@ def get_ydl_opts(task_id, quality='best'):
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
             'Accept-Language': 'en-US,en;q=0.9',
-            'Referer': 'https://www.tiktok.com/',
         },
     }
     cookie_file = get_cookie_file()
